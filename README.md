@@ -133,7 +133,7 @@ seekr_pearson expressed_6mers.csv xka_6mers.csv -o expressed_v_xka.csv
 ## Analysis of SEEKR results
 The result file of SEEKR was expressed_v_xka.csv.
 ### Sequential similarity to *Xist*, *Airn*, and *Kcnq1ot1*
-In UNIX, I extracted expressed lncRNAs' Pearson's R values to Xist, Airn, and Kcnq1ot1, respectively (referred to as XAK below).
+In UNIX, I extracted expressed lncRNAs' Pearson's R values to *Xist*, *Airn*, and *Kcnq1ot1*, respectively.
 ```
 cat expressed_v_xka.csv |  cut -f2 -d','  | sed 1d > R_X.txt
 cat expressed_v_xka.csv |  cut -f3 -d','  | sed 1d > R_A.txt
