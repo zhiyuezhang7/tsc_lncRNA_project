@@ -251,8 +251,11 @@ plt.show()
 ```
 ### Partition into groups
 I partitioned these 3 lists of expressed lncRNAs into 4 groups, respectively - the 99.9th percentile group, and 3 equal-sized tersiles.
+
 Note on file names:
+
 R_X_1.txt -> 99.9th percentile group for *Xist*
+
 R_X_ter1.txt -> first tersile group for *Xist* (In this case, each tersile has 924 or 925 lncRNAs.)
 ```
 cat expressed_v_xka.csv | tr ',' '\t' |sed 1d > expressed_v_xka.txt
@@ -280,7 +283,7 @@ cat R_A_1.txt | grep '.*unspliced.*' | wc -l
 cat R_A_2.txt | grep '.*unspliced.*' | wc -l
 cat R_K_1.txt | grep '.*unspliced.*' | wc -l
 cat R_K_2.txt | grep '.*unspliced.*' | wc -l
-	cat R_X_ter1.txt | grep '.*unspliced.*' | wc -l
+cat R_X_ter1.txt | grep '.*unspliced.*' | wc -l
 cat R_X_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_X_ter3.txt | grep '.*unspliced.*' | wc -l
 cat R_A_ter1.txt | grep '.*unspliced.*' | wc -l
