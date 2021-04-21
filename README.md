@@ -274,7 +274,7 @@ cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '956,1879 p' > R_K
 cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '1880,2803 p' > R_K_ter3.txt
 ```
 For each group, I then generated the number of spliced versus unspliced RNAs, GC-content, mean RNA length, and made box and whisker plots of gene expression.
-### Number of Unspliced RNAs
+### Number of unspliced RNAs
 The results would be printed to the terminal.
 ```
 cat R_X_1.txt | grep '.*unspliced.*' | wc -l
