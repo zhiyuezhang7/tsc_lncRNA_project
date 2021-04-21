@@ -1,5 +1,5 @@
-# TSC lncRNA project: Methods and Materials
-Undergraduate research project in the Calabrese Lab, Spring 2021
+# TSC lncRNA Project: Methods and Materials
+Zhiyue Zhang's undergraduate research project in the Calabrese Lab, Spring 2021
 
 ## Quantification of gene expression
 To determine what lncRNAs count as "expressed" in mouse TSCs, I used the total RNA-seq data of TSCs published by the lab in [Molecular Cell](https://pubmed.ncbi.nlm.nih.gov/31256989/) (Schertzer et al., 2019).
