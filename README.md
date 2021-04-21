@@ -10,7 +10,7 @@ d165_vprtta_rna_S8_R1_001.fastq.gz
 d91_krab_rtta_rna_S12_R1_001.fastq.gz
 d91_vp_rtta_rna_S10_R1_001.fastq.gz
 ```
-### Alignment to whole genome
+### Alignment to the whole genome
 To align reads to the mouse genome, I used [RSEM and bowtie](https://pubmed.ncbi.nlm.nih.gov/21816040/).
 The reference mouse genome used in alignment below was derived from [GENCODE](https://www.gencodegenes.org/).
 ```
@@ -108,7 +108,7 @@ The rough inflection point of TPM_All.txt determined the TPM benchmark for “ex
 cat tsc_rsem_lncRNA_all.txt | awk '$6 >= 0.25' > tsc_rsem_lncRNA_expressed.txt
 ```
 
-## Sequence Comparison with SEEKR
+## Sequence comparison with SEEKR
 The second step is to run [SEEKR](https://pubmed.ncbi.nlm.nih.gov/30224646/) on the sequences of expressed lncRNAs versus the sequences of Xist, Airn, and Kcnq1ot1 (derived from [the UCSC genome browser](https://genome.ucsc.edu/)), and partition expressed lncRNAs into groups based on their *k*-mer profiles.
 
 ### Extraction of lncRNA sequences
@@ -130,9 +130,9 @@ seekr_kmer_counts mm10_XKA_mc.fa.txt -o xka_6mers.csv -k 6  -l pre -mv mean_6me
 seekr_pearson expressed_6mers.csv xka_6mers.csv -o expressed_v_xka.csv
 ```
 
-## Analysis of SEEKR Results
+## Analysis of SEEKR results
 The result file of SEEKR was expressed_v_xka.csv.
-### Sequential Similarity to *Xist*, *Airn*, and *Kcnq1ot1*
+### Sequential similarity to *Xist*, *Airn*, and *Kcnq1ot1*
 In UNIX, I extracted expressed lncRNAs' Pearson's R values to Xist, Airn, and Kcnq1ot1, respectively (referred to as XAK below).
 ```
 cat expressed_v_xka.csv |  cut -f2 -d','  | sed 1d > R_X.txt
@@ -351,7 +351,137 @@ cat gencode_lncRNAs_expressed_linear.fa | grep -f R_K_ter3names.txt > R_K_ter3se
 cat R_K_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
 ```
 
-### RNA length
+### Mean RNA length
 The results would be printed to the terminal.
+```
+cat R_X_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+cat R_A_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+cat R_K_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
 
+cat R_X_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_X_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_X_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_A_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_A_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_A_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_K_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_K_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+ 
+cat R_K_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+```
 ### Expression levels
+First, I extracted the TPM values of each group.
+```
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_X_1names.txt | cut -f6 > R_X_1TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_A_1names.txt | cut -f6 > R_A_1TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_1names.txt | cut -f6 > R_K_1TPM.txt
+ 
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_X_ter1names.txt | cut -f6 > R_X_ter1TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_X_ter2names.txt | cut -f6 > R_X_ter2TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_X_ter3names.txt | cut -f6 > R_X_ter3TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_A_ter1names.txt | cut -f6 > R_A_ter1TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_A_ter2names.txt | cut -f6 > R_A_ter2TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_A_ter3names.txt | cut -f6 > R_A_ter3TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_ter1names.txt | cut -f6 > R_K_ter1TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_ter2names.txt | cut -f6 > R_K_ter2TPM.txt
+cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_ter3names.txt | cut -f6 > R_K_ter3TPM.txt
+```
+Then I made boxplots of each list of TPM values with python.
+```
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+ 
+file = open("R_X_1TPM.txt")
+d0 = file.read().splitlines() # list
+x0 = [math.log(float(z)+0.001,2) for z in d0]
+ 
+file = open("R_X_ter1TPM.txt")
+d1 = file.read().splitlines() # list
+x1 = [math.log(float(z)+0.001,2) for z in d1]
+ 
+file = open("R_X_ter2TPM.txt")
+d2 = file.read().splitlines() # list
+x2 = [math.log(float(z)+0.001,2) for z in d2]
+ 
+file = open("R_X_ter3TPM.txt")
+d3 = file.read().splitlines() # list
+x3 = [math.log(float(z)+0.001,2) for z in d3]
+ 
+file = open("R_A_1TPM.txt")
+d4 = file.read().splitlines() # list
+a0 = [math.log(float(z)+0.001,2) for z in d4]
+ 
+file = open("R_A_ter1TPM.txt")
+d5 = file.read().splitlines() # list
+a1 = [math.log(float(z)+0.001,2) for z in d5]
+ 
+file = open("R_A_ter2TPM.txt")
+d6 = file.read().splitlines() # list
+a2 = [math.log(float(z)+0.001,2) for z in d6]
+ 
+file = open("R_A_ter3TPM.txt")
+d7 = file.read().splitlines() # list
+a3 = [math.log(float(z)+0.001,2) for z in d7]
+ 
+file = open("R_K_1TPM.txt")
+d8 = file.read().splitlines() # list
+k0 = [math.log(float(z)+0.001,2) for z in d8]
+ 
+file = open("R_K_ter1TPM.txt")
+d9 = file.read().splitlines() # list
+k1 = [math.log(float(z)+0.001,2) for z in d9]
+ 
+file = open("R_K_ter2TPM.txt")
+d10 = file.read().splitlines() # list
+k2 = [math.log(float(z)+0.001,2) for z in d10]
+ 
+file = open("R_K_ter3TPM.txt")
+d11 = file.read().splitlines() # list
+k3 = [math.log(float(z)+0.001,2) for z in d11]
+ 
+x = [x0, x1, x2, x3, a0, a1, a2, a3, k0, k1, k2, k3]
+ 
+fig = plt.figure(1, figsize =(100, 30))
+ 
+# Create an axes instance
+ax = fig.add_subplot(111)
+ax.set_xticklabels(['X_99.9', 'X_ter1', 'X_ter2', 'X_ter3', 'A_99.9', 'A_ter1', 'A_ter2', 'A_ter3', 'K_99.9', 'K_ter1', 'K_ter2', 'K_ter3'],fontsize=80)
+plt.yticks(fontsize=80)
+ax.set_ylabel('log2(TPM)', fontsize=100)
+#ax.set_xlabel('Grouping based on Sequential Similarity with Xist, Airn, and Kcnq1ot1', fontsize=13)
+ 
+# Create the boxplot
+bp = ax.boxplot(x,showfliers=False,patch_artist=True,boxprops=dict(linewidth=4,facecolor="white", color="black"),
+                medianprops=dict(linewidth=4,color="red"),capprops=dict(linewidth=4),
+                whiskerprops=dict(linewidth=4),flierprops=dict(linewidth=4))
+#plt.boxplot(data[:,:3], positions=[1,2,3], notch=True, patch_artist=True,boxprops=dict(facecolor=c, color=c),capprops=dict(color=c),whiskerprops=dict(color=c),flierprops=dict(color=c, markeredgecolor=c),medianprops=dict(color=c))
+ 
+plt.axvline(x=4.5, linewidth=4, color='grey')
+plt.axvline(x=8.5, linewidth=4, color='grey')
+ 
+plt.title('Expression Levels of Expressed lncRNA Genes in Mouse TSCs\n',fontsize=100,fontweight='bold')
+plt.show()
+#plt.savefig('Boxplot_TPM_Expressed_lncRNA.png')
+#plt.savefig('Boxplot_TPM_Expressed_lncRNA.pdf')
+```
+
+## Summary of findings
+Lastly, I made a masterfile, which is the SEEKR results file plus the following information for each expressed lncRNA: spliced or unspliced, GC-contnet, RNA length, TPM value.
+```
+cat expressed_v_xka.txt | cut -f1,2,3,4 | awk '{if ($1 ~ /unspliced/) {print $1, $2, $3, $4, "unspliced";} else {print $1, $2, $3, $4, "spliced"}}' > expressed_masterfile.txt
+cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.2f%%\n", (gc*100)/(gc+at)}' > gc_masterfile.txt
+cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > length_masterfile.txt
+cat tsc_rsem_lncRNA_expressed.txt | sort | cut -f6 > TPM_masterfile.txt
+
+sort -o expressed_masterfile.txt expressed_masterfile.txt | less
+paste expressed_masterfile.txt gc_masterfile.txt length_masterfile.txt TPM_masterfile.txt | tr ' ' '\t' > masterfile.txt
+sed  -i '1i gene_info\t>Xist\t>Airn\t>Kcnq1ot1\tspliced/unspliced\tGC-content\tgene_length\tTPM'  masterfile.txt
+```
