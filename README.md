@@ -12,10 +12,8 @@ d91_vp_rtta_rna_S10_R1_001.fastq.gz
 ```
 ### Alignment to the whole genome
 To align reads to the mouse genome, I used [RSEM and bowtie](https://pubmed.ncbi.nlm.nih.gov/21816040/).
-The reference mouse genome used in alignment below was derived from [GENCODE](https://www.gencodegenes.org/).
-```
-gencode.vM25.basic.annotation.complete.ERCC.fa
-```
+The reference mouse genome was `gencode.vM25.basic.annotation.complete.ERCC.fa`, derived from [GENCODE](https://www.gencodegenes.org/).
+
 I ran RSEM commands in UNIX. (Unless otherwise specified, all commands listed in this file are UNIX commands.)
 ```
 module load rsem
@@ -26,7 +24,7 @@ sbatch -N 1 -n 16 --mail-type ALL --mail-user zhiyue@live.unc.edu --mem 50g -t 2
 squeue -u zhiyue
 ```
 ### Extraction of lncRNA expression levels
-I extracted only lncRNAs from the isoforms.results file produced by RSEM. The transcript types of lncRNAs were specified in [the Ensembl genome browser](https://www.gencodegenes.org/pages/biotypes.html), excluding “non-coding”. The gene names of all RNAs were derived from the vM25 Basic gene annotation (CHR) gtf file provided by [GENCODE](https://www.gencodegenes.org/mouse/).
+I extracted only lncRNAs from the `tsc_dcas9_gcvM25_rs.isoforms.results` file produced by RSEM. The transcript types of lncRNAs were specified in [the Ensembl genome browser](https://www.gencodegenes.org/pages/biotypes.html), excluding “non-coding”. The gene names of all RNAs were derived from the vM25 Basic gene annotation (CHR) gtf file provided by [GENCODE](https://www.gencodegenes.org/mouse/).
 ```
 GTF=$(ls *.gtf)
 echo $GTF 
@@ -45,7 +43,7 @@ cat tsc_rsem_lncRNA_all.txt | cut -f6 > TPM_w.txt
 ```
 ### Determination of "expressed" TPM value
 I made histograms of the expression levels (TPM values) of all genes and only lncRNA genes in TSCs, with Matplotlib and NumPy in Python.
-To download the graphs, comment *plt.show()* and decomment the last two lines of code.
+To download the graphs, comment `plt.show()` and decomment the last two lines of code.
 
 For all genes:
 ```
@@ -103,16 +101,16 @@ plt.show()
 #plt.savefig('Histogram_lncRNA.png')
 #plt.savefig('Histogram_lncRNA.pdf')
 ```
-The rough inflection point of TPM_All.txt determined the TPM benchmark for “expressed” lncRNAs to be 0.25. I extracted the RSEM results of all expressed lncRNAs.
+The rough inflection point of `TPM_All.txt` determined the TPM benchmark for "expressed" lncRNAs to be 0.25. I extracted the RSEM results of all expressed lncRNAs.
 ```
 cat tsc_rsem_lncRNA_all.txt | awk '$6 >= 0.25' > tsc_rsem_lncRNA_expressed.txt
 ```
 
 ## Sequence comparison with SEEKR
-The second step is to run [SEEKR](https://pubmed.ncbi.nlm.nih.gov/30224646/) on the sequences of expressed lncRNAs versus the sequences of Xist, Airn, and Kcnq1ot1 (derived from [the UCSC genome browser](https://genome.ucsc.edu/)), and partition expressed lncRNAs into groups based on their *k*-mer profiles.
+The second step is to run [SEEKR](https://pubmed.ncbi.nlm.nih.gov/30224646/) on the sequences of expressed lncRNAs versus the sequences of *Xist*, *Airn*, and *Kcnq1ot1* (derived from [the UCSC genome browser](https://genome.ucsc.edu/)), and partition expressed lncRNAs into groups based on their *k*-mer profiles.
 
 ### Extraction of lncRNA sequences
-I first generated two files with the sequences of lncRNAs and expressed lncRNAs, respectively. The fa file used containing all mouse sequences was still gencode.vM25.basic.annotation.complete.ERCC.fa, with its name changed to gencode_all.fa below.
+I first generated two files with the sequences of lncRNAs and expressed lncRNAs, respectively. The fa file used containing all mouse sequences was still `gencode.vM25.basic.annotation.complete.ERCC.fa`, with its name changed to `gencode_all.fa` below.
 ```
 cat gencode_all.fa | awk '/^>/ {printf("%s%s\t",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' > gencode_all_linear.fa
 cat gencode_all_linear.fa | grep -f lncRNA_gene_name.txt > gencode_lncRNAs_linear.fa
@@ -122,7 +120,7 @@ cat gencode_lncRNAs_linear.fa | grep -f tsc_rsem_lncRNA_expressed_info.txt > gen
 cat gencode_lncRNAs_expressed_linear.fa | tr "\t" "\n" > gencode_expressed_lncRNAs.fa
 ```
 ### SEEKR
-After downloading gencode_lncRNAs.fa and gencode_expressed_lncRNAs.fa, I installed SEEKR from my local Anaconda, and ran SEEKR on my local terminal.
+After downloading `gencode_lncRNAs.fa` and `gencode_expressed_lncRNAs.fa`, I installed SEEKR from my local Anaconda, and ran SEEKR on my local terminal.
 ```
 seekr_norm_vectors gencode_lncRNAs.fa  -k 6  -l pre -mv mean_6mers.npy -sv std_6mers.npy
 seekr_kmer_counts gencode_expressed_lncRNAs.fa -o expressed_6mers.csv -k 6  -l pre -mv mean_6mers.npy -sv std_6mers.npy
@@ -131,7 +129,7 @@ seekr_pearson expressed_6mers.csv xka_6mers.csv -o expressed_v_xka.csv
 ```
 
 ## Analysis of SEEKR results
-The result file of SEEKR was expressed_v_xka.csv.
+The result file of SEEKR was `expressed_v_xka.csv`.
 ### Sequential similarity to *Xist*, *Airn*, and *Kcnq1ot1*
 In UNIX, I extracted expressed lncRNAs' Pearson's R values to *Xist*, *Airn*, and *Kcnq1ot1*, respectively.
 ```
@@ -254,9 +252,9 @@ I partitioned these 3 lists of expressed lncRNAs into 4 groups, respectively - t
 
 Note on file names:
 
-R_X_1.txt -> 99.9th percentile group for *Xist*
+`R_X_1.txt` -> 99.9th percentile group for *Xist*
 
-R_X_ter1.txt -> first tersile group for *Xist* (In this case, each tersile has 924 or 925 lncRNAs.)
+`R_X_ter1.txt` -> first tersile group for *Xist* (In this case, each tersile has 924 or 925 lncRNAs.)
 ```
 cat expressed_v_xka.csv | tr ',' '\t' |sed 1d > expressed_v_xka.txt
 cat expressed_v_xka.txt | cut -f1,2 | awk '{if($2>=0.277711657){print $0}}' >R_X_1.txt
@@ -474,7 +472,7 @@ plt.show()
 ```
 
 ## Summary of findings
-Lastly, I made a masterfile, which is the SEEKR results file plus the following information for each expressed lncRNA: spliced or unspliced, GC-contnet, RNA length, TPM value.
+Lastly, I summarized my findings in `masterfile.txt`, which is the SEEKR results file plus the following information for each expressed lncRNA: spliced or unspliced, GC-contnet, RNA length, and TPM value.
 ```
 cat expressed_v_xka.txt | cut -f1,2,3,4 | awk '{if ($1 ~ /unspliced/) {print $1, $2, $3, $4, "unspliced";} else {print $1, $2, $3, $4, "spliced"}}' > expressed_masterfile.txt
 cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.2f%%\n", (gc*100)/(gc+at)}' > gc_masterfile.txt
