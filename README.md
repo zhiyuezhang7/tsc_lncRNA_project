@@ -1,4 +1,5 @@
-# Methods and Materials
+# TSC lncRNA project: Methods and Materials
+Undergraduate research project in the Calabrese Lab, Spring 2021
 
 ## Quantification of Gene Expression
 
