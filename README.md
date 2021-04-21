@@ -1,4 +1,4 @@
-# TSC lncRNA Project: Methods and Materials
+# TSC lncRNA Project: Materials and Methods
 Zhiyue Zhang's undergraduate research project in the Calabrese Lab, Spring 2021
 
 ## Quantification of gene expression
