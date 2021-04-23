@@ -273,7 +273,7 @@ cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '1880,2803 p' > R_
 ```
 For each group, I then generated the number of spliced versus unspliced RNAs, GC-content, mean RNA length, and made box and whisker plots of gene expression.
 ### Number of unspliced RNAs
-The number of unspliced RNAs for each group would be printed to the terminal.
+The results would be printed to the terminal.
 ```
 cat R_X_1.txt | grep '.*unspliced.*' | wc -l
 cat R_X_2.txt | grep '.*unspliced.*' | wc -l
@@ -292,7 +292,7 @@ cat R_K_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_K_ter3.txt | grep '.*unspliced.*' | wc -l
 ```
 ### GC-content
-First derive the sequences for each group; then calculate the GC-content. The results would be printed to the terminal.
+I first extracted the sequences for each group, and then calculated their GC-content. The results would be printed to the terminal.
 ```
 cat R_X_1.txt | cut -f1 > R_X_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_1names.txt > R_X_1seq.txt
@@ -455,7 +455,6 @@ ax.set_ylabel('log2(TPM)', fontsize=100)
 bp = ax.boxplot(x,showfliers=False,patch_artist=True,boxprops=dict(linewidth=4,facecolor="white", color="black"),
                 medianprops=dict(linewidth=4,color="red"),capprops=dict(linewidth=4),
                 whiskerprops=dict(linewidth=4),flierprops=dict(linewidth=4))
-#plt.boxplot(data[:,:3], positions=[1,2,3], notch=True, patch_artist=True,boxprops=dict(facecolor=c, color=c),capprops=dict(color=c),whiskerprops=dict(color=c),flierprops=dict(color=c, markeredgecolor=c),medianprops=dict(color=c))
  
 plt.axvline(x=4.5, linewidth=4, color='grey')
 plt.axvline(x=8.5, linewidth=4, color='grey')
@@ -467,7 +466,7 @@ plt.show()
 ```
 
 ## Summary of findings
-Lastly, I summarized my findings in `masterfile.txt`, which is the SEEKR results file plus the following information for each expressed lncRNA: spliced or unspliced, GC-contnet, RNA length, and TPM value.
+Lastly, I summarized my findings in `masterfile.txt`, which is the SEEKR results file plus the following information for each expressed lncRNA: spliced or unspliced, GC-contnet, length, and TPM value.
 ```
 cat expressed_v_xka.txt | cut -f1,2,3,4 | awk '{if ($1 ~ /unspliced/) {print $1, $2, $3, $4, "unspliced";} else {print $1, $2, $3, $4, "spliced"}}' > expressed_masterfile.txt
 cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.2f%%\n", (gc*100)/(gc+at)}' > gc_masterfile.txt
