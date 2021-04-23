@@ -138,7 +138,7 @@ cat expressed_v_xka.csv |  cut -f3 -d','  | sed 1d > R_A.txt
 cat expressed_v_xka.csv |  cut -f4 -d','  | sed 1d > R_K.txt
 ```
 In excel, I calculated the mean, standard deviation, and 99.9th percentile (z-score>=3) for each list. 
-I made histograms for each list with python.
+I made histograms for each list with Python.
 
 For expressed vs *Xist*:
 ```
@@ -391,7 +391,7 @@ cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_ter1names.txt 
 cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_ter2names.txt | cut -f6 > R_K_ter2TPM.txt
 cat tsc_rsem_lncRNA_expressed.txt | sed -e 's/^/>/' | grep -f R_K_ter3names.txt | cut -f6 > R_K_ter3TPM.txt
 ```
-Then I made boxplots of each list of TPM values with python.
+Then I made boxplots of each list of TPM values with Python.
 ```
 import matplotlib.pyplot as plt
 import numpy as np
