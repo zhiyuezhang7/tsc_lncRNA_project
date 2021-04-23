@@ -273,7 +273,7 @@ cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '1880,2803 p' > R_
 ```
 For each group, I then generated the number of spliced versus unspliced RNAs, GC-content, mean RNA length, and made box and whisker plots of gene expression.
 ### Number of unspliced RNAs
-The results would be printed to the terminal.
+The number of unspliced RNAs for each group would be printed to the terminal.
 ```
 cat R_X_1.txt | grep '.*unspliced.*' | wc -l
 cat R_X_2.txt | grep '.*unspliced.*' | wc -l
@@ -292,22 +292,17 @@ cat R_K_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_K_ter3.txt | grep '.*unspliced.*' | wc -l
 ```
 ### GC-content
-First derive the sequences for each group.
+First derive the sequences for each group; then calculate the GC-content. The results would be printed to the terminal.
 ```
 cat R_X_1.txt | cut -f1 > R_X_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_1names.txt > R_X_1seq.txt
-wc -l R_X_1seq.txt
 
 cat R_A_1.txt | cut -f1 > R_A_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_1names.txt > R_A_1seq.txt
-wc -l R_A_1seq.txt
 
 cat R_K_1.txt | cut -f1 > R_K_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_K_1names.txt > R_K_1seq.txt
-wc -l R_K_1seq.txt
-```
-The GC-content for each group would be printed to the terminal.
-```
+
 cat R_X_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }' 
 cat R_A_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'  
 cat R_K_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }' 
