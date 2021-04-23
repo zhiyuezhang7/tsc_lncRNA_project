@@ -120,7 +120,7 @@ cat gencode_lncRNAs_linear.fa | grep -f tsc_rsem_lncRNA_expressed_info.txt > gen
 cat gencode_lncRNAs_expressed_linear.fa | tr "\t" "\n" > gencode_expressed_lncRNAs.fa
 ```
 ### SEEKR
-After downloading `gencode_lncRNAs.fa` and `gencode_expressed_lncRNAs.fa`, I installed SEEKR from my local Anaconda, and ran SEEKR on my local terminal.
+After downloading `gencode_lncRNAs.fa` and `gencode_expressed_lncRNAs.fa`, I installed [SEEKR](https://github.com/CalabreseLab/seekr) from my local Anaconda, and ran SEEKR on my local terminal.
 ```
 seekr_norm_vectors gencode_lncRNAs.fa  -k 6  -l pre -mv mean_6mers.npy -sv std_6mers.npy
 seekr_kmer_counts gencode_expressed_lncRNAs.fa -o expressed_6mers.csv -k 6  -l pre -mv mean_6mers.npy -sv std_6mers.npy
