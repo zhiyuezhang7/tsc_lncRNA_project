@@ -292,56 +292,63 @@ cat R_K_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_K_ter3.txt | grep '.*unspliced.*' | wc -l
 ```
 ### GC-content
-I first extracted the sequences for each group, and then calculated their GC-content. The results would be printed to the terminal.
+I first extracted the sequences for each group.
 ```
 cat R_X_1.txt | cut -f1 > R_X_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_1names.txt > R_X_1seq.txt
 
+cat R_X_ter1.txt | cut -f1 > R_X_ter1names.txt
+cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_ter1names.txt > R_X_ter1seq.txt
+
+cat R_X_ter2.txt | cut -f1 > R_X_ter2names.txt
+cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_ter2names.txt > R_X_ter2seq.txt
+
+cat R_X_ter3.txt | cut -f1 > R_X_ter3names.txt
+cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_ter3names.txt > R_X_ter3seq.txt
+
 cat R_A_1.txt | cut -f1 > R_A_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_1names.txt > R_A_1seq.txt
+
+cat R_A_ter1.txt | cut -f1 > R_A_ter1names.txt
+cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_ter1names.txt > R_A_ter1seq.txt
+
+cat R_A_ter2.txt | cut -f1 > R_A_ter2names.txt
+cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_ter2names.txt > R_A_ter2seq.txt
+
+cat R_A_ter3.txt | cut -f1 > R_A_ter3names.txt
+cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_ter3names.txt > R_A_ter3seq.txt
 
 cat R_K_1.txt | cut -f1 > R_K_1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_K_1names.txt > R_K_1seq.txt
 
-cat R_X_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }' 
-cat R_A_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'  
-cat R_K_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }' 
-
-cat R_X_ter1.txt | cut -f1 > R_X_ter1names.txt
-cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_ter1names.txt > R_X_ter1seq.txt
-cat R_X_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
-cat R_X_ter2.txt | cut -f1 > R_X_ter2names.txt
-cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_ter2names.txt > R_X_ter2seq.txt
-cat R_X_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
-cat R_X_ter3.txt | cut -f1 > R_X_ter3names.txt
-cat gencode_lncRNAs_expressed_linear.fa | grep -f R_X_ter3names.txt > R_X_ter3seq.txt
-cat R_X_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
-cat R_A_ter1.txt | cut -f1 > R_A_ter1names.txt
-cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_ter1names.txt > R_A_ter1seq.txt
-cat R_A_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
-cat R_A_ter2.txt | cut -f1 > R_A_ter2names.txt
-cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_ter2names.txt > R_A_ter2seq.txt
-cat R_A_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
-cat R_A_ter3.txt | cut -f1 > R_A_ter3names.txt
-cat gencode_lncRNAs_expressed_linear.fa | grep -f R_A_ter3names.txt > R_A_ter3seq.txt
-cat R_A_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
 cat R_K_ter1.txt | cut -f1 > R_K_ter1names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_K_ter1names.txt > R_K_ter1seq.txt
-cat R_K_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
+
 cat R_K_ter2.txt | cut -f1 > R_K_ter2names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_K_ter2names.txt > R_K_ter2seq.txt
-cat R_K_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
- 
+
 cat R_K_ter3.txt | cut -f1 > R_K_ter3names.txt
 cat gencode_lncRNAs_expressed_linear.fa | grep -f R_K_ter3names.txt > R_K_ter3seq.txt
-cat R_K_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,"");} END{ printf "%.2f%%\n", (gc*100)/(gc+at) }'
+```
+Then I calculated the mean GC-content of each group. The results would be printed to `gc.txt`.
+```
+echo 'X99.9th/X1ter/X2ter/X3ter:' > gc.txt
+cat R_X_1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
+cat R_X_ter1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt
+cat R_X_ter2seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt
+cat R_X_ter3seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt
+ 
+echo 'A99.9th/A1ter/A2ter/A3ter:' >> gc.txt
+cat R_A_1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt
+cat R_A_ter1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt
+cat R_A_ter2seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
+cat R_A_ter3seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
+
+echo 'K99.9th/K1ter/K2ter/K3ter:' >> gc.txt
+cat R_K_1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
+cat R_K_ter1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
+cat R_K_ter2seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
+cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
 ```
 
 ### Mean RNA length
