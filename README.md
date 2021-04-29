@@ -352,29 +352,25 @@ cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/
 ```
 
 ### Mean RNA length
-The results would be printed to the terminal.
+The results would be printed to 'len.txt'.
 ```
-cat R_X_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
-cat R_A_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
-cat R_K_1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+echo 'X99.9th/X1ter/X2ter/X3ter:' > len.txt
+cat R_X_1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_X_ter1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_X_ter2seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_X_ter3seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
 
-cat R_X_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_X_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_X_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_A_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_A_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_A_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_K_ter1seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_K_ter2seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
- 
-cat R_K_ter3seq.txt | cut -f2 | tr '/t' '/n' | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%s%s %s%.2f\n", "Number of sequences: ", line, " Mean RNA length: ", (char/line) }'
+echo 'A99.9th/A1ter/A2ter/A3ter:' >> len.txt
+cat R_A_1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_A_ter1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_A_ter2seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_A_ter3seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+
+echo 'K99.9th/K1ter/K2ter/K3ter:' >> len.txt
+cat R_K_1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_K_ter1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_K_ter2seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
+cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
 ```
 ### Expression levels
 First, I extracted the TPM values of each group.
