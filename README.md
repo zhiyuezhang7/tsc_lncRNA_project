@@ -352,7 +352,7 @@ cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/
 ```
 
 ### Mean RNA length
-The results would be printed to 'len.txt'.
+The results would be printed to `len.txt`.
 ```
 echo 'X99.9th/X1ter/X2ter/X3ter:' > len.txt
 cat R_X_1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.2f\n", (char/line) }' >> len.txt
@@ -472,11 +472,12 @@ plt.show()
 Lastly, I summarized my findings in `masterfile.txt`, which is the SEEKR results file plus the following information for each expressed lncRNA: spliced or unspliced, GC-contnet, length, and TPM value.
 ```
 cat expressed_v_xka.txt | cut -f1,2,3,4 | awk '{if ($1 ~ /unspliced/) {print $1, $2, $3, $4, "unspliced";} else {print $1, $2, $3, $4, "spliced"}}' > expressed_masterfile.txt
-cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.2f%%\n", (gc*100)/(gc+at)}' > gc_masterfile.txt
-cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > length_masterfile.txt
+cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_masterfile.txt
+cat gencode_lncRNAs_expressed_linear.fa | sort | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > length_masterfile.txt
 cat tsc_rsem_lncRNA_expressed.txt | sort | cut -f6 > TPM_masterfile.txt
 
 sort -o expressed_masterfile.txt expressed_masterfile.txt | less
 paste expressed_masterfile.txt gc_masterfile.txt length_masterfile.txt TPM_masterfile.txt | tr ' ' '\t' > masterfile.txt
 sed  -i '1i gene_info\t>Xist\t>Airn\t>Kcnq1ot1\tspliced/unspliced\tGC-content\tgene_length\tTPM'  masterfile.txt
+cat masterfile.txt | tr '\t' ',' > masterfile.csv
 ```
