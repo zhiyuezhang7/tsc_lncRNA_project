@@ -432,10 +432,10 @@ print(xf)
 print(af)
 print(kf)
  
-print(xf.pvalue < 0.05)
-print(af.pvalue < 0.05)
-print(kf.pvalue < 0.05)
-# If p-value is less than .05, we have sufficient evidence to say that the mean values across each group are not equal.
+print(xf.pvalue < 0.01)
+print(af.pvalue < 0.01)
+print(kf.pvalue < 0.01)
+# If p-value is less than .01, we have sufficient evidence to say that the mean values across each group are not equal.
  
 #Tukey's HSD test
 #Xist
@@ -445,7 +445,7 @@ xg0 = np.repeat(['X_99.9'], repeats=31)
 xg1 = np.repeat(['X_ter1', 'X_ter2', 'X_ter3'], repeats=924)
 xg = np.concatenate((xg0, xg1))
  
-xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.05)
+xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.01)
 print("\n")
 print(xtukey)
  
@@ -457,7 +457,7 @@ ag1 = np.repeat(['A_ter1'], repeats=925)
 ag2 = np.repeat(['A_ter2', 'A_ter3'], repeats=924)
 ag = np.concatenate((ag0, ag1, ag2))
  
-atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.05)
+atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.01)
 print("\n")
 print(atukey)
  
@@ -469,7 +469,7 @@ kg1 = np.repeat(['K_ter1'], repeats=925)
 kg2 = np.repeat(['K_ter2', 'K_ter3'], repeats=924)
 kg = np.concatenate((kg0, kg1, kg2))
  
-ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.05)
+ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.01)
 print("\n")
 print(ktukey)
  
@@ -579,10 +579,10 @@ print(xf)
 print(af)
 print(kf)
  
-print(xf.pvalue < 0.05)
-print(af.pvalue < 0.05)
-print(kf.pvalue < 0.05)
-# If p-value is less than .05, we have sufficient evidence to say that the mean values across each group are not equal.
+print(xf.pvalue < 0.01)
+print(af.pvalue < 0.01)
+print(kf.pvalue < 0.01)
+# If p-value is less than .01, we have sufficient evidence to say that the mean values across each group are not equal.
  
 #Tukey's HSD test
 #Xist
@@ -592,7 +592,7 @@ xg0 = np.repeat(['X_99.9'], repeats=31)
 xg1 = np.repeat(['X_ter1', 'X_ter2', 'X_ter3'], repeats=924)
 xg = np.concatenate((xg0, xg1))
  
-xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.05)
+xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.01)
 print("\n")
 print(xtukey)
  
@@ -604,7 +604,7 @@ ag1 = np.repeat(['A_ter1'], repeats=925)
 ag2 = np.repeat(['A_ter2', 'A_ter3'], repeats=924)
 ag = np.concatenate((ag0, ag1, ag2))
  
-atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.05)
+atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.01)
 print("\n")
 print(atukey)
  
@@ -616,7 +616,7 @@ kg1 = np.repeat(['K_ter1'], repeats=925)
 kg2 = np.repeat(['K_ter2', 'K_ter3'], repeats=924)
 kg = np.concatenate((kg0, kg1, kg2))
  
-ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.05)
+ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.01)
 print("\n")
 print(ktukey)
  
@@ -717,6 +717,114 @@ plt.title('Expression Levels of Expressed lncRNA Genes in Mouse TSCs\n',fontsize
 plt.show()
 #plt.savefig('Boxplot_TPM_Expressed_lncRNA.png')
 #plt.savefig('Boxplot_TPM_Expressed_lncRNA.pdf')
+```
+Next, I did Tukey's HSD test on the log2(TPM) of lncRNAs per group. The significance level used is all 0.01. The program below is in Python.
+```
+import pandas as pd
+import numpy as np
+import math
+from scipy.stats import f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+ 
+file = open("R_X_1TPM.txt")
+d0 = file.read().splitlines() # list
+x0 = [math.log(float(z)+0.001,2) for z in d0]
+ 
+file = open("R_X_ter1TPM.txt")
+d1 = file.read().splitlines() # list
+x1 = [math.log(float(z)+0.001,2) for z in d1]
+ 
+file = open("R_X_ter2TPM.txt")
+d2 = file.read().splitlines() # list
+x2 = [math.log(float(z)+0.001,2) for z in d2]
+ 
+file = open("R_X_ter3TPM.txt")
+d3 = file.read().splitlines() # list
+x3 = [math.log(float(z)+0.001,2) for z in d3]
+ 
+file = open("R_A_1TPM.txt")
+d4 = file.read().splitlines() # list
+a0 = [math.log(float(z)+0.001,2) for z in d4]
+ 
+file = open("R_A_ter1TPM.txt")
+d5 = file.read().splitlines() # list
+a1 = [math.log(float(z)+0.001,2) for z in d5]
+ 
+file = open("R_A_ter2TPM.txt")
+d6 = file.read().splitlines() # list
+a2 = [math.log(float(z)+0.001,2) for z in d6]
+ 
+file = open("R_A_ter3TPM.txt")
+d7 = file.read().splitlines() # list
+a3 = [math.log(float(z)+0.001,2) for z in d7]
+ 
+file = open("R_K_1TPM.txt")
+d8 = file.read().splitlines() # list
+k0 = [math.log(float(z)+0.001,2) for z in d8]
+ 
+file = open("R_K_ter1TPM.txt")
+d9 = file.read().splitlines() # list
+k1 = [math.log(float(z)+0.001,2) for z in d9]
+ 
+file = open("R_K_ter2TPM.txt")
+d10 = file.read().splitlines() # list
+k2 = [math.log(float(z)+0.001,2) for z in d10]
+ 
+file = open("R_K_ter3TPM.txt")
+d11 = file.read().splitlines() # list
+k3 = [math.log(float(z)+0.001,2) for z in d11]
+ 
+#one-way ANOVA model
+xf = f_oneway(x0, x1, x2, x3)
+af = f_oneway(a0, a1, a2, a3)
+kf = f_oneway(k0, k1, k2, k3)
+ 
+print(xf)
+print(af)
+print(kf)
+ 
+print(xf.pvalue < 0.01)
+print(af.pvalue < 0.01)
+print(kf.pvalue < 0.01)
+# If p-value is less than .01, we have sufficient evidence to say that the mean values across each group are not equal.
+ 
+#Tukey's HSD test
+#Xist
+x = np.concatenate((x0, x1, x2, x3))
+ 
+xg0 = np.repeat(['X_99.9'], repeats=31)
+xg1 = np.repeat(['X_ter1', 'X_ter2', 'X_ter3'], repeats=924)
+xg = np.concatenate((xg0, xg1))
+ 
+xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.01)
+print("\n")
+print(xtukey)
+ 
+#Airn
+a = np.concatenate((a0, a1, a2, a3))
+ 
+ag0 = np.repeat(['A_99.9'], repeats=30)
+ag1 = np.repeat(['A_ter1'], repeats=925)
+ag2 = np.repeat(['A_ter2', 'A_ter3'], repeats=924)
+ag = np.concatenate((ag0, ag1, ag2))
+ 
+atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.01)
+print("\n")
+print(atukey)
+ 
+#Kcnq1ot1
+k = np.concatenate((k0, k1, k2, k3))
+ 
+kg0 = np.repeat(['K_99.9'], repeats=30)
+kg1 = np.repeat(['K_ter1'], repeats=925)
+kg2 = np.repeat(['K_ter2', 'K_ter3'], repeats=924)
+kg = np.concatenate((kg0, kg1, kg2))
+ 
+ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.01)
+print("\n")
+print(ktukey)
+ 
+#if reject is true, there is a statistically significant difference between the means of the 2 groups
 ```
 
 ## Summary of findings
