@@ -31,7 +31,7 @@ echo $GTF
 ```
 The output above should be the name of the gtf file used.
 ```
-grep 'transcript_type "bidirectional_promoter_lncRNA"\|transcript_type "macro_lncRNA"\|transcript_type "antisense"\|transcript_type "3prime_overlapping_ncRNA"\|transcript_type "lincRNA"\|transcript_type "processed_transcript"\|transcript_type "sense_intronic"\|transcript_type "sense_overlapping"\|' $GTF > gtf_lncRNA_extract.txt
+grep 'transcript_type "bidirectional_promoter_lncRNA"\|transcript_type "macro_lncRNA"\|transcript_type "antisense"\|transcript_type "3prime_overlapping_ncRNA"\|transcript_type "lincRNA"\|transcript_type "processed_transcript"\|transcript_type "sense_intronic"\|transcript_type "sense_overlapping"' $GTF > gtf_lncRNA_extract.txt
 cat gtf_lncRNA_extract.txt | cut -f5 -d';' | sort | uniq -c
 ```
 The command above should only print lncRNA types. 
