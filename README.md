@@ -271,26 +271,26 @@ cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '31,955 p' > R_K_t
 cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '956,1879 p' > R_K_ter2.txt
 cat expressed_v_xka.txt | cut -f1,4 | sort -r -g -k 2 |sed -n '1880,2803 p' > R_K_ter3.txt
 ```
-For each group, I then generated the number of spliced versus unspliced RNAs, GC-content, mean RNA length, and made box and whisker plots of gene expression.
+For each group, I then generated the number of spliced versus unspliced RNAs, GC-content, mean RNA length, and performed statistics to test the significance of data.
 ### Number of unspliced RNAs
 The results would be printed to the terminal.
 ```
 cat R_X_1.txt | grep '.*unspliced.*' | wc -l
-cat R_X_2.txt | grep '.*unspliced.*' | wc -l
-cat R_A_1.txt | grep '.*unspliced.*' | wc -l
-cat R_A_2.txt | grep '.*unspliced.*' | wc -l
-cat R_K_1.txt | grep '.*unspliced.*' | wc -l
-cat R_K_2.txt | grep '.*unspliced.*' | wc -l
 cat R_X_ter1.txt | grep '.*unspliced.*' | wc -l
 cat R_X_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_X_ter3.txt | grep '.*unspliced.*' | wc -l
+
+cat R_A_1.txt | grep '.*unspliced.*' | wc -l
 cat R_A_ter1.txt | grep '.*unspliced.*' | wc -l
 cat R_A_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_A_ter3.txt | grep '.*unspliced.*' | wc -l
+
+cat R_K_1.txt | grep '.*unspliced.*' | wc -l
 cat R_K_ter1.txt | grep '.*unspliced.*' | wc -l
 cat R_K_ter2.txt | grep '.*unspliced.*' | wc -l
 cat R_K_ter3.txt | grep '.*unspliced.*' | wc -l
 ```
+In Excel, I performed binomial tests on the number of unspliced lncRNAs in each of the 99.9th percentile.
 ### GC-content
 I first extracted the sequences for each group.
 ```
@@ -350,6 +350,131 @@ cat R_K_ter1seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/
 cat R_K_ter2seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
 cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{line++; gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); sum+=(gc/(gc+at));} END{printf "%.4f\n", sum/line}' >> gc.txt 
 ```
+I did Tukey’s HSD tests on the GC-content of lncRNAs per group. First, extract sublists of GC-content.
+```
+cat R_X_1seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_x1.txt
+cat R_X_ter1seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_xter1.txt
+cat R_X_ter2seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_xter2.txt
+cat R_X_ter3seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_xter3.txt
+ 
+cat R_A_1seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_a1.txt
+cat R_A_ter1seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_ater1.txt
+cat R_A_ter2seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_ater2.txt
+cat R_A_ter3seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_ater3.txt
+ 
+cat R_K_1seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_k1.txt
+cat R_K_ter1seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_kter1.txt
+cat R_K_ter2seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_kter2.txt
+cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{gc=0; at=0; gc+=gsub(/[gGcC]/,""); at+=gsub(/[aAtT]/,""); printf "%.4f\n", gc/(gc+at);}' > gc_kter3.txt
+```
+Next, do Tukey. The significance level used is all 0.01. The program below is in Python.
+```
+# GC-content
+import pandas as pd
+import numpy as np
+from scipy.stats import f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+ 
+file = open("gc_x1.txt")
+d0 = file.read().splitlines() # list
+x0 = [float(z) for z in d0]
+ 
+file = open("gc_xter1.txt")
+d1 = file.read().splitlines() # list
+x1 = [float(z) for z in d1]
+ 
+file = open("gc_xter2.txt")
+d2 = file.read().splitlines() # list
+x2 = [float(z) for z in d2]
+ 
+file = open("gc_xter3.txt")
+d3 = file.read().splitlines() # list
+x3 = [float(z) for z in d3]
+ 
+file = open("gc_a1.txt")
+d4 = file.read().splitlines() # list
+a0 = [float(z) for z in d4]
+ 
+file = open("gc_ater1.txt")
+d5 = file.read().splitlines() # list
+a1 = [float(z) for z in d5]
+ 
+file = open("gc_ater2.txt")
+d6 = file.read().splitlines() # list
+a2 = [float(z) for z in d6]
+ 
+file = open("gc_ater3.txt")
+d7 = file.read().splitlines() # list
+a3 = [float(z) for z in d7]
+ 
+file = open("gc_k1.txt")
+d8 = file.read().splitlines() # list
+k0 = [float(z) for z in d8]
+ 
+file = open("gc_kter1.txt")
+d9 = file.read().splitlines() # list
+k1 = [float(z) for z in d9]
+ 
+file = open("gc_kter2.txt")
+d10 = file.read().splitlines() # list
+k2 = [float(z) for z in d10]
+ 
+file = open("gc_kter3.txt")
+d11 = file.read().splitlines() # list
+k3 = [float(z) for z in d11]
+ 
+#one-way ANOVA model
+xf = f_oneway(x0, x1, x2, x3)
+af = f_oneway(a0, a1, a2, a3)
+kf = f_oneway(k0, k1, k2, k3)
+ 
+print(xf)
+print(af)
+print(kf)
+ 
+print(xf.pvalue < 0.05)
+print(af.pvalue < 0.05)
+print(kf.pvalue < 0.05)
+# If p-value is less than .05, we have sufficient evidence to say that the mean values across each group are not equal.
+ 
+#Tukey's HSD test
+#Xist
+x = np.concatenate((x0, x1, x2, x3))
+ 
+xg0 = np.repeat(['X_99.9'], repeats=31)
+xg1 = np.repeat(['X_ter1', 'X_ter2', 'X_ter3'], repeats=924)
+xg = np.concatenate((xg0, xg1))
+ 
+xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.05)
+print("\n")
+print(xtukey)
+ 
+#Airn
+a = np.concatenate((a0, a1, a2, a3))
+ 
+ag0 = np.repeat(['A_99.9'], repeats=30)
+ag1 = np.repeat(['A_ter1'], repeats=925)
+ag2 = np.repeat(['A_ter2', 'A_ter3'], repeats=924)
+ag = np.concatenate((ag0, ag1, ag2))
+ 
+atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.05)
+print("\n")
+print(atukey)
+ 
+#Kcnq1ot1
+k = np.concatenate((k0, k1, k2, k3))
+ 
+kg0 = np.repeat(['K_99.9'], repeats=30)
+kg1 = np.repeat(['K_ter1'], repeats=925)
+kg2 = np.repeat(['K_ter2', 'K_ter3'], repeats=924)
+kg = np.concatenate((kg0, kg1, kg2))
+ 
+ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.05)
+print("\n")
+print(ktukey)
+ 
+#if reject is true, there is a statistically significant difference between the means of the 2 groups
+```
 
 ### Mean RNA length
 The results would be printed to `len.txt`.
@@ -372,6 +497,132 @@ cat R_K_ter1seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"")
 cat R_K_ter2seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.0f\n", (char/line) }' >> len.txt
 cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{line++; char+=gsub(/[aAtTnNcCgG]/,"");} END{ printf "%.0f\n", (char/line) }' >> len.txt
 ```
+I did Tukey’s HSD tests on the length of lncRNAs per group. First, extract sublists of length.
+```
+cat R_X_1seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_x1.txt
+cat R_X_ter1seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_xter1.txt
+cat R_X_ter2seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_xter2.txt
+cat R_X_ter3seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_xter3.txt
+ 
+cat R_A_1seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_a1.txt
+cat R_A_ter1seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_ater1.txt
+cat R_A_ter2seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_ater2.txt
+cat R_A_ter3seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_ater3.txt
+ 
+cat R_K_1seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_k1.txt
+cat R_K_ter1seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_kter1.txt
+cat R_K_ter2seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_kter2.txt
+cat R_K_ter3seq.txt | cut -f2 | awk '!/^>/{char=0; char+=gsub(/[aAtTnNcCgG]/,""); printf "%d\n", char}' > len_kter3.txt
+```
+Next, do Tukey. The significance level used is all 0.01. The program below is in Python.
+```
+#length
+import pandas as pd
+import numpy as np
+from scipy.stats import f_oneway
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+ 
+file = open("len_x1.txt")
+d0 = file.read().splitlines() # list
+x0 = [float(z) for z in d0]
+ 
+file = open("len_xter1.txt")
+d1 = file.read().splitlines() # list
+x1 = [float(z) for z in d1]
+ 
+file = open("len_xter2.txt")
+d2 = file.read().splitlines() # list
+x2 = [float(z) for z in d2]
+ 
+file = open("len_xter3.txt")
+d3 = file.read().splitlines() # list
+x3 = [float(z) for z in d3]
+ 
+file = open("len_a1.txt")
+d4 = file.read().splitlines() # list
+a0 = [float(z) for z in d4]
+ 
+file = open("len_ater1.txt")
+d5 = file.read().splitlines() # list
+a1 = [float(z) for z in d5]
+ 
+file = open("len_ater2.txt")
+d6 = file.read().splitlines() # list
+a2 = [float(z) for z in d6]
+ 
+file = open("len_ater3.txt")
+d7 = file.read().splitlines() # list
+a3 = [float(z) for z in d7]
+ 
+file = open("len_k1.txt")
+d8 = file.read().splitlines() # list
+k0 = [float(z) for z in d8]
+ 
+file = open("len_kter1.txt")
+d9 = file.read().splitlines() # list
+k1 = [float(z) for z in d9]
+ 
+file = open("len_kter2.txt")
+d10 = file.read().splitlines() # list
+k2 = [float(z) for z in d10]
+ 
+file = open("len_kter3.txt")
+d11 = file.read().splitlines() # list
+k3 = [float(z) for z in d11]
+ 
+#one-way ANOVA model
+xf = f_oneway(x0, x1, x2, x3)
+af = f_oneway(a0, a1, a2, a3)
+kf = f_oneway(k0, k1, k2, k3)
+ 
+print(xf)
+print(af)
+print(kf)
+ 
+print(xf.pvalue < 0.05)
+print(af.pvalue < 0.05)
+print(kf.pvalue < 0.05)
+# If p-value is less than .05, we have sufficient evidence to say that the mean values across each group are not equal.
+ 
+#Tukey's HSD test
+#Xist
+x = np.concatenate((x0, x1, x2, x3))
+ 
+xg0 = np.repeat(['X_99.9'], repeats=31)
+xg1 = np.repeat(['X_ter1', 'X_ter2', 'X_ter3'], repeats=924)
+xg = np.concatenate((xg0, xg1))
+ 
+xtukey = pairwise_tukeyhsd(endog=x, groups=xg, alpha=0.05)
+print("\n")
+print(xtukey)
+ 
+#Airn
+a = np.concatenate((a0, a1, a2, a3))
+ 
+ag0 = np.repeat(['A_99.9'], repeats=30)
+ag1 = np.repeat(['A_ter1'], repeats=925)
+ag2 = np.repeat(['A_ter2', 'A_ter3'], repeats=924)
+ag = np.concatenate((ag0, ag1, ag2))
+ 
+atukey = pairwise_tukeyhsd(endog=a, groups=ag, alpha=0.05)
+print("\n")
+print(atukey)
+ 
+#Kcnq1ot1
+k = np.concatenate((k0, k1, k2, k3))
+ 
+kg0 = np.repeat(['K_99.9'], repeats=30)
+kg1 = np.repeat(['K_ter1'], repeats=925)
+kg2 = np.repeat(['K_ter2', 'K_ter3'], repeats=924)
+kg = np.concatenate((kg0, kg1, kg2))
+ 
+ktukey = pairwise_tukeyhsd(endog=k, groups=kg, alpha=0.05)
+print("\n")
+print(ktukey)
+ 
+#if reject is true, there is a statistically significant difference between the means of the 2 groups
+```
+
 ### Expression levels
 First, I extracted the TPM values of each group.
 ```
@@ -478,6 +729,6 @@ cat tsc_rsem_lncRNA_expressed.txt | sort | cut -f6 > TPM_masterfile.txt
 
 sort -o expressed_masterfile.txt expressed_masterfile.txt | less
 paste expressed_masterfile.txt gc_masterfile.txt length_masterfile.txt TPM_masterfile.txt | tr ' ' '\t' > masterfile.txt
-sed  -i '1i gene_info\t>Xist\t>Airn\t>Kcnq1ot1\tspliced/unspliced\tGC-content\tgene_length\tTPM'  masterfile.txt
+sed  -i '1i gene_info\t>Xist\t>Airn\t>Kcnq1ot1\tspliced/unspliced\tGC-content\tgene_length\tTPM' masterfile.txt
 cat masterfile.txt | tr '\t' ',' > masterfile.csv
 ```
