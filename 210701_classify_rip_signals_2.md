@@ -1,4 +1,4 @@
-###Unix
+### Unix
 
 2. Use bedtools to merge gene intervals, and intersect RIP data with such intervals
 2a. merge NC and C intervals
