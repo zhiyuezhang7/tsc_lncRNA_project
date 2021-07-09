@@ -1,11 +1,16 @@
+# Python
+
+# Files needed:
+# GENCODE's basic .gtf file: 'gencode.vM25.basic.annotation.gtf'
+# RIP file: 'hnrnpk_pirhana_rpkm_ercc_normalization.txt'
+
+# Goals:
 # From a RIP file, identify if each peak overlaps with lncRNA genes, protein-coding genes (If both, will label as protein-coding), or other DNA regions
-# Calculate the proportion of each class. 
+# Calculate the proportion of each class.
 
 # I will label lncRNA genes as NC genes, and protein-coding genes as C genes. 
-# The RIP file used here is named 'hnrnpk_pirhana_rpkm_ercc_normalization.txt'.
 
 # 1. Format conversion: convert mouse NC genes, mouse C genes, and the RIP file into .bed format in preparation of using bedtools. 
-# The NC genes and C genes are derived from GENCODE's basic .gtf file: 'gencode.vM25.basic.annotation.complete.ERCC.fa'.
 
 # 1a. extract NC genes and C genes from .gtf file
 import re
@@ -69,4 +74,3 @@ for line in rip_lines:
     arr = line.split("\t")
     rip_bed.write(arr[1].strip('"') + "\t" + str(int(arr[2])-1) + "\t" + arr[3] + "\t" + arr[0].strip('"') + "\t" + "." + "\t" + arr[4].strip('"') + "\n")
 rip_bed.close()
-
