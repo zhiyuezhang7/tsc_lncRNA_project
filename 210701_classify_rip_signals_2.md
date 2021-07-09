@@ -1,6 +1,7 @@
 ### Unix
 
-2. Use [bedtools](https://bedtools.readthedocs.io/en/latest/) to [merge](https://bedtools.readthedocs.io/en/latest/content/tools/merge.html) gene intervals, and [intersect](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) RIP data with such intervals
+2. Use [bedtools](https://bedtools.readthedocs.io/en/latest/) to [merge](https://bedtools.readthedocs.io/en/latest/content/tools/merge.html) gene intervals, and [intersect](https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html) RIP data with such intervals.
+
 2a. merge NC and C intervals
 ```
 module load bedtools
