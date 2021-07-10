@@ -19,8 +19,8 @@ paste hnrnpk_pirhana_rpkm_ercc_normalization.txt peak_labels.txt intersection_po
 ### Excel
 6. Within Excel, calculate the exonic percentage of each peak and the (normalized) number of exonic signals.
 
-a. Start a new column labeled `exonic_percentage`. Apply exonic_percentage = exonic_length / length (`=S2/F2`) to whole column.
+6a. Start a new column labeled `exonic_percentage`. Apply exonic_percentage = exonic_length / length (`=S2/F2`) to whole column.
 
-b. Start another column labeled `exonic_signals`. Apply exonic_signals = exonic_percentage * ercchnrnpk (`=T2*O2`) to whole column. ("ercchnrnpk" column represents the normalized RIP signal.)
+6b. Start another column labeled `exonic_signals`. Apply exonic_signals = exonic_percentage * ercchnrnpk (`=T2*O2`) to whole column. ("ercchnrnpk" column represents the normalized RIP signal.)
 
 ### Done!
