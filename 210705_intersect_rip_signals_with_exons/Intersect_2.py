@@ -1,6 +1,6 @@
 # 3. Report coordinates of exonic intersection for each peak
 
-file = open("intersect.txt", "r")
+file = open("intersect_exon.txt", "r")
 lines = file.readlines()
 file.close()
 
