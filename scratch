@@ -7,7 +7,7 @@ The RIP file used here is named `hnrnpk_pirhana_rpkm_ercc_normalization.txt`.
 Convert mouse NC genes, mouse C genes, and the RIP file into .bed format in preparation of using [bedtools](https://bedtools.readthedocs.io/en/latest/).
 The NC genes and C genes are derived from [GENCODE](https://www.gencodegenes.org/)'s basic .gtf file: 'gencode.vM25.basic.annotation.complete.ERCC.fa`.
 
-# 1a. Extract NC genes and C genes from .gtf file
+### 1a. Extract NC genes and C genes from .gtf file
 ```
 import re
 file = open("gencode.vM25.basic.annotation.gtf", "r")
@@ -35,7 +35,7 @@ nc_gtf.close()
 c_gtf.close()
 ```
 
-# 1b. Convert .gtf to .bed
+### 1b. Convert .gtf to .bed
 For NC:
 ```
 nc_gtf = open("nc.gtf", "r")
