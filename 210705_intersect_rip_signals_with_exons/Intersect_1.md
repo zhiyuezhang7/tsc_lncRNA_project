@@ -1,8 +1,9 @@
 ### Unix
 
 Files needed:
-GENCODE's basic .gtf file: 'gencode.vM25.basic.annotation.gtf'
-RIP file: 'hnrnpk_pirhana_rpkm_ercc_normalization.txt'
+
+GENCODE's basic .gtf file: `gencode.vM25.basic.annotation.gtf`
+RIP file: `hnrnpk_pirhana_rpkm_ercc_normalization.txt`
 
 Goals: Report the percentage of exonic intersection within each peak, and the genomic coordinates of such intersection (if any).
 
