@@ -2,7 +2,7 @@
 
 4. Count number of exonic coordinates for each peak.
 ```
-cat intersect.txt | cut -f4,13 | awk '{a[$1]+=$2}END{for (i in a) print i, a[i]}' | sort -V | cut -d ' ' -f2  > intersect_merged.txt
+cat intersect_exon.txt | cut -f4,13 | awk '{a[$1]+=$2}END{for (i in a) print i, a[i]}' | sort -V | cut -d ' ' -f2  > intersect_merged.txt
 sed -i '1i exonic_length' intersect_merged.txt
 ```
 5. Make a new file reporting intersection. The result would be in `hnrnpk_pirhana_rpkm_ercc_normalization_exonic_intersection.csv`.
