@@ -86,7 +86,7 @@ scaling_factor_igg = ERCC_FPKM_q3[0] / ERCC_FPKM_q3[2]  # input_unft(Q3) / igg_u
 # 3. Subtract background noise (igg signal) for each transcript
     # all_rip_ft(FPKM) - all_igg_ft(FPKM)
 
-# 4. Output (all ft except for input)
+# 4. Output (all filtered except for input)
     # fpkm_input.txt
     # fpkm_rip.txt
     # fpkm_igg.txt
