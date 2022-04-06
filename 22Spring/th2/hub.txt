@@ -1,5 +1,0 @@
-hub 220327_hub
-shortLabel 220327_hub
-longLabel alignment and peaks (2-fold enriched over IgG) of 27 RIP datasets
-genomesFile 220327_genomes.txt
-email zhiyue@live.unc.edu

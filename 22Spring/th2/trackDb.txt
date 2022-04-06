@@ -1,6 +1,0 @@
-track  bigWig1
-bigDataUrl http://hgdownload.soe.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeCshlLongRnaSeq/wgEncodeCshlLongRnaSeqA549CellLongnonpolyaMinusRawSigRep1.bigWig
-shortLabel bigWig example
-longLabel This bigWig file is an example from the ENCODE RNA-seq CSHL Track
-type bigWig
-visibility dense
