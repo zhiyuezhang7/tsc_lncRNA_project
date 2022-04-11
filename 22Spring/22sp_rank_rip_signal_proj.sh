@@ -14,8 +14,8 @@
 #### Goal: rank transcript based on binding signal to a RBP
 
 # Example command:
-    # to edit
-    # $1 = rbp name
+    # sbatch 22sp_rank_rip_signal_proj.sh $1
+    # $1 = rbp name (all lower cases) e.g., alyref
 
 module load kallisto
 module load samtools

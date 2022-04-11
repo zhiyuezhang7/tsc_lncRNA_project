@@ -13,7 +13,8 @@
 
 ## argument: RBP_name (all lower cases!!!)
     # example command: (TO EDIT)
-    # sbatch name.sh alyref
+    # sbatch 22sp_classify_rip_peaks_proj.sh $1
+    # $1 = rbp name (all lower cases) e.g., alyref
 
 ## input files:
     # /proj/calabrlb/users/Zhiyue/22_sp/rip/*$1* = all rip files needed
