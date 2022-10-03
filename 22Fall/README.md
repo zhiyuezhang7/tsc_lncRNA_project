@@ -1,6 +1,6 @@
 # Identification of Repressive RNAs with Xist-Like Functions in the Mouse Transcriptome: Materials and Methods
 
-## Quantification of RNA-Protein Interactions
+## Quantifying RNA-Protein Interactions
 ### RNA Immunoprecipitation Data
 Mickey Murvin - another member of the Calabrese Lab - performed RNA Immunoprecipitation (RIP) on mouse trophoblast stem cells (TSCs)  with antibodies of 27 RNA-binding proteins important for Xist function: `Aly/Ref,G9a,HnrnpC,HNRNPK,HnrnpM,HnrnpU,Jarid2,LBR,MAtr3,Nudt21,PABPN1,PTBP1,RBM15,Ring1b,RYBP,SAFB,SPEN,SRSF1,SUPT16H,SUZ12,U2AF35,XRN2,Tia1,Ciz1,U2AF65,Nxf1,SFPQ`. `IgG` antibodies were used as control.
 
@@ -110,6 +110,7 @@ sbatch 22fa_rank_rip_signal.sh nxf1
 sbatch 22fa_rank_rip_signal.sh sfpq
 ```
 
+## Extracting Expressed, Chromatin-Enriched RNAs
 ### Total RNA-seq and Fractionation Data
 Previous analysis was on the whole transcriptome. To select only RNAs that are highly expressed and chromatin enriched in TSCs, I used total RNA-seq and fractionation data to determine thresholds of expression and chromatin enrichment.
 I used the total RNA-seq data of TSCs published by the lab in [Molecular Cell](https://pubmed.ncbi.nlm.nih.gov/31256989/) (Schertzer et al., 2019), as stored in `/proj/calabrlb/users/Zhiyue/21_02_25/total_RNAseq/`:
@@ -130,37 +131,4 @@ tsc_b16_cytoplasm_rna_S4_R2_001.fastq.gz
 ### Filtering Expressed, Chromatin-Enriched RNAs 
 I ran `22fa_filtering_threshold.sh` to compute the total, cytoplasmic, and chromatinic expression of transcripts.
 Then I ran `22fa_filtering_threshold.ipynb` to plot histogram of total expression and chromatin enrichment: %chromatin = chromatin_TPM /(chromatin_TPM + cytoplasm_TPM). I determined the thresholds based on the inflection points.
-I filtered the transcriptome to only select expressed, chromatin-enriched RNAs:
-```
-# Goal: make table with kallisto results from all 27 RBPs; add kallisto results from totalRNA and fractionation (chromatin and cytoplasm) data
-    # then filter with total_RNA_TPM > 0.25; chromatin% > 0.75
-
-# extract both rip (rpm) and rip_less_igg (rpm) from individual kallisto tables
-    # we have 27 files; we want the 6th and 8th column from each file
-cut_col_num=$(seq 8 8 216 | awk -v OFS="" '{ print $1-2","$1","}' | tr -d '\n' | sed 's/.$//')
-cut_col_num="${cut_col_num}"
-paste /proj/calabrlb/users/Zhiyue/22_sp/kallisto/*_kallisto_igg_rpm.txt | cut -f"$cut_col_num" > all27rbp_kallisto_igg_rpm_0.txt
-paste /proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/threshold/total_chr_cyto_tpm_perc.txt all27rbp_kallisto_igg_rpm_0.txt > all27rbp_kallisto_igg_rpm.txt
-
-cat all27rbp_kallisto_igg_rpm.txt | tr '\t' ',' > all27rbp_kallisto_igg_rpm.csv
-
-# # save to proj
-# cp all27rbp_kallisto_igg_rpm.* /proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/
-
-# filter kallisto matrix with selected rna satisfying thresholds
-cp /proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/threshold/total_chr_cyto_tpm_perc.txt bg_list.txt
-cp /proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/all27rbp_kallisto_igg_rpm.txt our_list.txt
-    # copy header to output
-head -1 our_list.txt > our_list_filtered.txt
-sed -i 1d our_list.txt
-
-# 0.25 = expression level; 0.75 = chr% level
-cat bg_list.txt | sed 1d | awk -v OFS="\t" '{if ($4 > 0.25 && $7 > 0.75) print 1; else print 0}' > rna_filter.txt
-# our list has 3+2*27 = 57 col; paste the T/F of rna select before 1st col
-paste rna_filter.txt our_list.txt | awk -v OFS="\t" '{if ($1 == 1) print $0}' | cut -f2- >> our_list_filtered.txt
-
-# # save to proj
-# cp our_list_filtered.txt /proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/all27rbp_kallisto_igg_rpm_filtered.txt
-# cat our_list_filtered.txt | tr '\t' ',' > /proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/all27rbp_kallisto_igg_rpm_filtered.csv
-
-```
+I ran `22fa_filtering.sh` to filter the protein-binding profile data to only select expressed, chromatin-enriched RNAs. The resulting data is `all27rbp_kallisto_igg_rpm_filtered.csv`.
