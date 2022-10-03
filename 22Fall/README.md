@@ -69,7 +69,7 @@ tsc_spen_novus_S15_R1_001.fastq.gz
 tsc_suz12_S6_R1_001.fastq.gz
 ```
 
-### Computation of Protein-Binding Signals
+### Computing Protein-Binding Signals
 I performed the following steps for RIP-seq data with each of the 27 antibodies:
 1. Align RIP-seq data to the mm10 genome
 2. Call peaks of protein-binding
@@ -131,4 +131,30 @@ tsc_b16_cytoplasm_rna_S4_R2_001.fastq.gz
 ### Filtering Expressed, Chromatin-Enriched RNAs 
 I ran `22fa_filtering_threshold.sh` to compute the total, cytoplasmic, and chromatinic expression of transcripts.
 Then I ran `22fa_filtering_threshold.ipynb` to plot histogram of total expression and chromatin enrichment: %chromatin = chromatin_TPM /(chromatin_TPM + cytoplasm_TPM). I determined the thresholds based on the inflection points.
-I ran `22fa_filtering.sh` to filter the protein-binding profile data to only select expressed, chromatin-enriched RNAs. The resulting data is `all27rbp_kallisto_igg_rpm_filtered.csv`.
+I ran `22fa_filtering.sh` to filter the protein-binding profile data to only select expressed, chromatin-enriched RNAs. The resulting data of selected RNAs is `all27rbp_kallisto_igg_rpm_filtered.csv`.
+
+## Quantifying K-mer Similarities between Selected RNAs and Xist, Airn, Kcnq1ot1
+I extracted the sequence data of the RNAs selected in previous steps:
+```
+# linearize all.fa
+FA="/proj/calabrlb/users/Zhiyue/22_sp/ref_genome/gencode.vM25.basic.annotation.complete.ERCC.fa"
+cat $FA | awk '/^>/ {printf("%s%s\t",(N>0?"\n":""),$0);N++;next;} {printf("%s",$0);} END {printf("\n");}' > gencode_all_linear.fa
+
+# get gene_name_13788.txt
+kallisto_dat="/proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/all27rbp_kallisto_igg_rpm_filtered.txt"
+cat $kallisto_dat | cut -f1 | sed '1d' > gene_name_13788.txt
+
+# extract 13788.fa
+cat gencode_all_linear.fa | grep -f gene_name_13788.txt > RNA_13788_linear.fa
+cat RNA_13788_linear.fa | tr "\t" "\n" > RNA_13788.fa
+```
+In my local terminal, I ran [SEEKR](https://github.com/CalabreseLab/seekr) to compute the k-mer similarities between these RNAs and Xist, Airn, Kcnq1ot1. Input files `gencode.vM25.basic.annotation.complete.ERCC.fa` and `mm10_XKA_mc.fa` were needed:
+```
+seekr_norm_vectors gencode.vM25.basic.annotation.complete.ERCC.fa  -k 6  -mv mean_6mers.npy -sv std_6mers.npy
+seekr_kmer_counts RNA_13788.fa -o RNA_13788_6mers.csv -k 6 -mv mean_6mers.npy -sv std_6mers.npy
+seekr_kmer_counts mm10_XKA_mc.fa -o xka_6mers.csv -k 6  -l pre -mv mean_6mers.npy -sv std_6mers.npy
+seekr_pearson RNA_13788_6mers.csv xka_6mers.csv -o RNA_13788_vs_xka.csv
+```
+Overall, I have selected 13788 RNAs with their protein-binding information stored in `all27rbp_kallisto_igg_rpm_filtered.csv` and k-mer information stored in `RNA_13788_vs_xka.csv`.
+
+## Computing Correlation
