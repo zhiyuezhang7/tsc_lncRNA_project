@@ -1,7 +1,7 @@
 # Identification of Repressive RNAs with Xist-Like Functions in the Mouse Transcriptome: Materials and Methods
 
 ## Quantification of RNA-Protein Interactions
-### RNA Immunoprecipitation
+### Data Source:RNA Immunoprecipitation
 Mickey Murvin - another member of the Calabrese Lab - performed RNA Immunoprecipitation (RIP) on mouse trophoblast stem cells (TSCs)  with antibodies of 27 RNA-binding proteins important for Xist function: `Aly/Ref,G9a,HnrnpC,HNRNPK,HnrnpM,HnrnpU,Jarid2,LBR,MAtr3,Nudt21,PABPN1,PTBP1,RBM15,Ring1b,RYBP,SAFB,SPEN,SRSF1,SUPT16H,SUZ12,U2AF35,XRN2,Tia1,Ciz1,U2AF65,Nxf1,SFPQ`. `IgG` antibodies were used as control.
 
 I stored her RIP-seq data in `/proj/calabrlb/users/Zhiyue/22_sp/rip/` on Longleaf:
@@ -68,7 +68,8 @@ tsc_sfpq_S10_R1_001.fastq.gz
 tsc_spen_novus_S15_R1_001.fastq.gz
 tsc_suz12_S6_R1_001.fastq.gz
 ```
-### Computational Pipeline
+
+### Computational Analysis of Protein-Binding Signals
 I performed the following steps for RIP-seq data with each of the 27 antibodies:
 1. Align RIP-seq data to the genome
 2. Call peaks of protein-binding
@@ -108,3 +109,5 @@ sbatch 22fa_rank_rip_signal.sh u2af65
 sbatch 22fa_rank_rip_signal.sh nxf1
 sbatch 22fa_rank_rip_signal.sh sfpq
 ```
+
+
