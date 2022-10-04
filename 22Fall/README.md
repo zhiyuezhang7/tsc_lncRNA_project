@@ -158,3 +158,17 @@ seekr_pearson RNA_13788_6mers.csv xka_6mers.csv -o RNA_13788_vs_xka.csv
 Overall, I have selected 13788 RNAs with their protein-binding information stored in `all27rbp_kallisto_igg_rpm_filtered.csv` and k-mer information stored in `RNA_13788_vs_xka.csv`.
 
 ## Computing Correlation
+I ran `22fa_correlation.Rmd` to evaluate correlation between k-mer and protein-binding similarities.
+
+I added annotation of whether each transcript is spliced or unspliced, lncRNA or other types of RNAs. To add information of lncRNA, I found the names of lncRNA transcripts on Unix:
+```
+# get lncRNA_gene_name.txt
+GTF="/proj/calabrlb/users/Zhiyue/21_02_25/gencode.vM25.basic.annotation.gtf"
+grep 'transcript_type "bidirectional_promoter_lncRNA"\|transcript_type "macro_lncRNA"\|transcript_type "antisense"\|transcript_type "3prime_overlapping_ncRNA"\|transcript_type "lincRNA"\|transcript_type "processed_transcript"\|transcript_type "sense_intronic"\|transcript_type "sense_overlapping"' $GTF > gtf_lncRNA_extract.txt
+cat gtf_lncRNA_extract.txt | cut -f9 | cut -f4 -d';' | grep -o '".*"' | sed 's/"//g' | sort |  uniq -d > lncRNA_gene_name.txt
+
+# get kallisto_lncRNA_gene_name.txt
+kallisto_dat="/proj/calabrlb/users/Zhiyue/22_sp/kallisto_filtering/all27rbp_kallisto_igg_rpm_filtered.txt"
+cat $kallisto_dat | cut -f1 | sed '1d' > gene_name_13788.txt
+cat gene_name_13788.txt | grep -f lncRNA_gene_name.txt > gene_name_13788_lncRNA.txt
+```
