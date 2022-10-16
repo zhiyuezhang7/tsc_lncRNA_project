@@ -110,6 +110,8 @@ sbatch 22fa_rank_rip_signal.sh nxf1
 sbatch 22fa_rank_rip_signal.sh sfpq
 ```
 
+To show the importance of using IgG as a control, the wiggle track of RIP-seq data and the true peaks called can be viewed at [this UCSC session](https://genome.ucsc.edu/s/zhiyue/zhiyue_220511_rip_peaks).
+
 ## Extracting Expressed, Chromatin-Enriched RNAs
 ### Total RNA-seq and Fractionation Data
 Previous analysis was on the whole transcriptome. To select only RNAs that are highly expressed and chromatin enriched in TSCs, I used total RNA-seq and fractionation data to determine thresholds of expression and chromatin enrichment.
