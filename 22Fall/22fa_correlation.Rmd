@@ -1,0 +1,78 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# read in protein-binding profile
+library(readr)
+data <- read_csv("E:/Lab/2022_Spring/data/220517_kallisto/all27rbp_kallisto_igg_rpm_filtered.csv")
+data
+
+# z transformation
+data.z = data
+pr_names = gsub('_rpm', '', colnames(data[grepl("*_rpm$", colnames(data))]))
+rpm_over_igg_colnames = colnames(data[grepl("*_rpm_over_igg$", colnames(data))])
+
+for (pr in pr_names) {
+  pre_z =data[paste(pr, "_rpm_over_igg", sep="")]
+  data.z[paste(pr, ".z", sep="")] = (pre_z - mean(unlist(pre_z))) / sd(unlist(pre_z))
+}
+
+data.z = as.data.frame(data.z[,c((ncol(data.z)-26):ncol(data.z))])
+# set row names as RNA features
+gene_ID_ls = as.list(data)$gene_ID
+# gene_ID_ls = gsub('_','.',gene_ID_ls)
+rownames(data.z) = gene_ID_ls
+data.z = as.data.frame(t(data.z))
+# 27 protein as rows, 13788 rnas as columns
+# 27 features across 13788 samples
+data.z
+```
+
+```{r}
+# Xist corr
+gene_ID_ls[grepl("Xist",gene_ID_ls)]
+
+# Make dataframe with transcripts as rows, correlation type as columns
+corr_df = data.frame(matrix(ncol = 2, nrow = 13788))
+row.names(corr_df) = gene_ID_ls
+corr_df = setNames(corr_df, c("rip_pearsons_corr_xist", "rip_spearmans_corr_xist"))
+rip_xist = data.z[["Xist_chrX_103460366_103483254(-)_transcript=ENSMUST00000127786.3"]]
+# rip_xist
+for (rna in gene_ID_ls) {
+  corr_df[rna, "rip_pearsons_corr_xist"] = cor(data.z[[rna]], rip_xist)
+  corr_df[rna, "rip_spearmans_corr_xist"] = cor(data.z[[rna]], rip_xist, method = "spearman")
+}
+
+# add seekr results
+seekr_data = read_csv("E:/Lab/2022_Fall/data/220915_umap_seekr/RNA_13788_vs_xka.csv")
+seekr_data
+corr_df[["kmer_seekr_xist"]] = seekr_data[[">ENSMUST00000127786.3 (Xist) length=17946"]]
+
+# Airn corr
+gene_ID_ls[grepl("Airn",gene_ID_ls)]
+rip_airn = data.z[["Airn_chr17_12741311_12860136(+)_transcript=unspliced(+)"]]
+
+for (rna in gene_ID_ls) {
+  corr_df[rna, "rip_pearsons_corr_airn"] = cor(data.z[[rna]], rip_airn)
+  corr_df[rna, "rip_spearmans_corr_airn"] = cor(data.z[[rna]], rip_airn, method = "spearman")
+}
+# add seekr results
+corr_df[["kmer_seekr_airn"]] = seekr_data[[">mm10_Airn(chr17:12741311-12830123)"]]
+
+
+# Kcnq1ot1 corr
+gene_ID_ls[grepl("Kcnq1ot1",gene_ID_ls)]
+rip_kcnq1ot1 = data.z[["Kcnq1ot1_chr7_143203458_143296549(-)_transcript=ENSMUST00000185789.2"]]
+
+for (rna in gene_ID_ls) {
+  corr_df[rna, "rip_pearsons_corr_kcnq1ot1"] = cor(data.z[[rna]], rip_kcnq1ot1)
+  corr_df[rna, "rip_spearmans_corr_kcnq1ot1"] = cor(data.z[[rna]], rip_kcnq1ot1, method = "spearman")
+}
+# add seekr results
+corr_df[["kmer_seekr_kcnq1ot1"]] = seekr_data[[">ENSMUST00000185789.2 (Kcnq1ot1) length=93092"]]
+corr_df
+```
+
