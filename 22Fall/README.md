@@ -1,4 +1,6 @@
 # Identification of Repressive RNAs with Xist-Like Functions in the Mouse Transcriptome: Materials and Methods
+Zhiyue Zhang's Honors Thesis project in the Calabrese Lab at UNC School of Medicine
+
 
 ## Quantifying RNA-Protein Interactions
 ### RNA Immunoprecipitation Data
