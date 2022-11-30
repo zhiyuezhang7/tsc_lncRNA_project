@@ -80,9 +80,9 @@ I performed the following steps for RIP-seq data with each of the 27 antibodies:
 4. Find RIP-seq reads at true peaks
 5. Align RIP-seq reads at true peaks to the transcriptome (reference used: `gencode.vM25.basic.annotation.complete.ERCC.fa`) 
 
-I first ran `22fa_rank_rip_signal_igg.sh` to prepare IgG data.
+I first ran [22fa_rank_rip_signal_igg.sh](https://github.com/zhiyuezhang7/tsc_lncRNA_project/blob/main/22Fall/22fa_rank_rip_signal_igg.sh) to prepare IgG data.
 
-Then I ran `22fa_rank_rip_signal.sh` for each of the 27 proteins:
+Then I ran [22fa_rank_rip_signal.sh](https://github.com/zhiyuezhang7/tsc_lncRNA_project/blob/main/22Fall/22fa_rank_rip_signal.sh) for each of the 27 proteins:
 ```
 sbatch 22fa_rank_rip_signal.sh pabpn1
 sbatch 22fa_rank_rip_signal.sh hnrnpk
@@ -134,9 +134,9 @@ tsc_b16_cytoplasm_rna_S4_R2_001.fastq.gz
 ```
 
 ### Filtering Expressed, Chromatin-Enriched RNAs 
-I ran `22fa_filtering_threshold.sh` to compute the total, cytoplasmic, and chromatinic expression of transcripts.
-Then I ran `22fa_filtering_threshold.ipynb` to plot histogram of total expression and chromatin enrichment: %chromatin = chromatin_TPM /(chromatin_TPM + cytoplasm_TPM). I determined the thresholds based on the inflection points.
-I ran `22fa_filtering.sh` to filter the protein-binding profile data to only select expressed, chromatin-enriched RNAs. The resulting data of selected RNAs is `all27rbp_kallisto_igg_rpm_filtered.csv`.
+I ran [22fa_filtering_threshold.sh](https://github.com/zhiyuezhang7/tsc_lncRNA_project/blob/main/22Fall/22fa_filtering_threshold.sh) to compute the total, cytoplasmic, and chromatinic expression of transcripts.
+Then I ran [22fa_filtering_threshold.ipynb](https://github.com/zhiyuezhang7/tsc_lncRNA_project/blob/main/22Fall/22fa_filtering_threshold.ipynb) to plot histogram of total expression and chromatin enrichment: %chromatin = chromatin_TPM /(chromatin_TPM + cytoplasm_TPM). I determined the thresholds based on the inflection points.
+I ran [22fa_filtering.sh](https://github.com/zhiyuezhang7/tsc_lncRNA_project/blob/main/22Fall/22fa_filtering.sh) to filter the protein-binding profile data to only select expressed, chromatin-enriched RNAs. The resulting data of selected RNAs is `all27rbp_kallisto_igg_rpm_filtered.csv`.
 
 ## Quantifying K-mer Similarities between Selected RNAs and Xist, Airn, Kcnq1ot1
 I extracted the sequence data of the RNAs selected in previous steps:
@@ -163,7 +163,7 @@ seekr_pearson RNA_13788_6mers.csv xka_6mers.csv -o RNA_13788_vs_xka.csv
 Overall, I have selected 13788 RNAs with their protein-binding information stored in `all27rbp_kallisto_igg_rpm_filtered.csv` and k-mer information stored in `RNA_13788_vs_xka.csv`.
 
 ## Computing Correlation
-I ran `22fa_correlation.Rmd` to evaluate correlation between k-mer and protein-binding similarities.
+I ran [22fa_correlation.Rmd](https://github.com/zhiyuezhang7/tsc_lncRNA_project/blob/main/22Fall/22fa_correlation.Rmd) to evaluate correlation between k-mer and protein-binding similarities.
 
 I added annotation of whether each transcript is spliced or unspliced, lncRNA or other types of RNAs. To add information of lncRNA, I found the names of lncRNA transcripts on Unix:
 ```
