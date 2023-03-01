@@ -119,7 +119,7 @@ featureCounts -s 2 -F SAF -a $1_peaks.saf -o $1_fc $1_Aligned_filteredsq30.out.s
 featureCounts -s 2 -F SAF -a $1_peaks.saf -o $1_igg_fc /proj/calabrlb/users/Zhiyue/22_sp/rip_sam/igg_Aligned_filteredsq30.out.sam
 
 # extract raw reads
-cut -f7 $1_igg_fc > $1_igg_counts.txt # TO-DO: 2 LINE HEADER
+cut -f7 $1_igg_fc > $1_igg_counts.txt
 
 # count reads in each peak for individual rips
 if [ $rip_file_num -gt 1 ]
@@ -162,8 +162,6 @@ fi
 fastq_lin_num=$(wc -l $1/*$1*.fastq | tail -1 | sed 's/^ *//g' | cut -d ' ' -f1)
 (( reads = fastq_lin_num / 4 ))
 cat $1_fc.txt | sed 1d | awk -v OFS="\t" -v reads=$reads '{print $0, (($7*1000000)/reads)}' > $1_fc_allRpm.txt
-
-# TO-DO: OKAY UP UNTIL THIS POINT. PROBLEM IN THIS LINE? 2 header only removed one!!!
 
 # rpm conversion for igg:
     # reads_igg 
